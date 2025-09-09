@@ -9,11 +9,28 @@
 ```http
 POST http://localhost:5274/links
 Content-Type: application/json
-Authorization: bearer SOME_VALUE_YOU_GET_FROM_ANOTHER_SERVICE
- 
+Authorization: bearer 39378973973973
+
 {
-    "href": "https://www.hypertheory.com",
-    "description": "Best danged training available ANYWHERE!"
+  "href": "https://allstate.com",
+  "description": "Good insurance. Great Developers"
 }
 ```
+
+
+```http
+200 Ok
+Content-Type: application/json
+
+{
+  "id": "38983989839839839893",
+  "href": "https://typescriptlang.org",
+  "description": "The TypeScript Website",
+  "addedBy": "jeff@hypertheory.com",
+  "created": "some datetime"
+}
+```
+
+
+
 

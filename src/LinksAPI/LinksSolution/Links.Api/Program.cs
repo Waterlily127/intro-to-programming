@@ -1,6 +1,20 @@
+using Marten;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+var connectionString = builder.Configuration.GetConnectionString("links")
+
+    ?? throw new Exception("You Need a Connection String!");
+
+builder.Services.AddMarten(config =>
+
+{
+
+    config.Connection(connectionString);
+
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -25,5 +39,9 @@ app.MapControllers(); // Create a "phone book" of possible things this API can e
 
 app.Run(); // This is where our API will be up and running, listening for requests.
 // This is basically a while(true) {...} loop that will run "forever"
+
+
+// I want to make this "Program" class visible to my tests.
+public partial class Program;
 
 
