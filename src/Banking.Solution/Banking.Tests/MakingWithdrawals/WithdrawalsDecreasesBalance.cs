@@ -3,24 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Banking.Domain;
+
+using Banking.Tests.TestDoubles;
 
 namespace Banking.Tests.MakingWithdrawals;
+
+[Trait("Category", "Unit")]
 public class WithdrawalsDecreasesBalance
 {
-    //[Fact]
     [Theory]
-    [InlineData(110.10)]
-    [Trait("Category", "Unit")]
-    public void MakingAWithdrawal(decimal amountToWithdraw)
+    [InlineData(110.00)]
+    [InlineData(50)]
+    public void Withdrawing(decimal amountToWithdraw)
     {
-        // Given 
-        var account = new BankAccount();
+        var account = new BankAccount(new DummyBonusCalculator());
         var openingBalance = account.GetBalance();
-        //var amountToWithdraw = 100.10M;
 
         account.Withdraw(amountToWithdraw);
 
         Assert.Equal(openingBalance - amountToWithdraw, account.GetBalance());
     }
+
+    [Fact]
+    public void MayWithdrawFullBalance()
+    {
+        var account = new BankAccount(new DummyBonusCalculator());
+        var openingBalance = account.GetBalance();
+
+        account.Withdraw(openingBalance);
+
+        Assert.Equal(0, account.GetBalance());
+    }
+
 }
+
+

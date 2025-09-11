@@ -3,23 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Banking.Domain;
+
+using Banking.Tests.TestDoubles;
+using NSubstitute;
 
 namespace Banking.Tests.NewAccounts;
+[Trait("Category", "Unit")]
 public class HaveCorrectBalance
 {
-
     [Fact]
-    [Trait("Category", "Unit")]
     public void CorrectBalanceForNewAccounts()
     {
-        // given I have a bank account
-        var account = new BankAccount();
-        // when I ask that account for the balance
+        // WTCYWYH - WRITE THE CODE YOU WISH YOU HAD.
+        // Given I have a new bank account
+        //var account = new BankAccount(new DummyBonusCalculator());
+        var account = new BankAccount(Substitute.For<ICalculateBonusesForBankAccount>());
+
+        // When I ask that account for the balance
         decimal balance = account.GetBalance();
 
-        // then it should be...
+        // Then it should be ... 
+
         Assert.Equal(5000M, balance);
+
 
 
     }
