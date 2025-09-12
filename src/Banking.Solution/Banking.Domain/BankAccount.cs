@@ -8,7 +8,6 @@ public class BankAccount(ICalculateBonusesForBankAccount bonusCalculator)
     public virtual void Deposit(TransactionAmount amountToDeposit)
     {
 
-
         decimal bonus = bonusCalculator.GetBonusForDepositOn(balance, amountToDeposit);
         balance += amountToDeposit + bonus;
     }
