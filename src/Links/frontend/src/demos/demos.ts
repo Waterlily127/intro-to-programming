@@ -1,10 +1,11 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-demos',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet, RouterLink],
+  providers: [],
   template: `
     <div class="flex flex-row">
       <div>
@@ -14,7 +15,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
           <a routerLink="services" class="btn btn-primary">Services</a>
         </div>
       </div>
-      <div><router-outlet /></div>
+      <div class="px-4"><router-outlet /></div>
     </div>
   `,
   styles: ``,

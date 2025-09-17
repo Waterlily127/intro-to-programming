@@ -1,12 +1,14 @@
 import { Routes } from '@angular/router';
 import { Demos } from './demos';
-import { Signals } from './pages/signals';
 import { Effects } from './pages/effects';
 import { Services } from './pages/services';
+import { Signals } from './pages/signals';
+
 export const DEMOS_ROUTES: Routes = [
   {
-    path: '',
+    path: '', // /demos/
     component: Demos,
+    providers: [],
     children: [
       {
         path: 'signals',

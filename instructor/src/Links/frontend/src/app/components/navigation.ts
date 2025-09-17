@@ -8,7 +8,7 @@ import {
 import { NavLink } from './types';
 import { NavBarLink } from './nav-link';
 import { RouterLink } from '@angular/router';
-import { BankAccountStore } from '../../demos/services/bank-account-store';
+import { BankAccountStore } from '../../shared/services/bank-account-store';
 
 @Component({
   selector: 'app-navigation',
@@ -84,6 +84,7 @@ export class Navigation {
   }
 
   accountStore = inject(BankAccountStore);
+
   links = signal<NavLink[]>([
     {
       href: '/',
