@@ -3,20 +3,31 @@
 using System.ComponentModel.DataAnnotations;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
+using Weasel.Postgresql.Tables;
 
 namespace Links.Api.Links;
 
 
 // When a POST comes in for "/links", create a instance of this class, oh Kestral Web Server
 
-public class LinksController(IDocumentSession session) : ControllerBase
+[ApiController]
+public class LinksController(IDocumentSession session, IManagerUserIdentity userIdentityManager) : ControllerBase
 {
-
+    // GET /links
+    // GET /link?sortOrder=NewestFirst
     [HttpGet("/links")]
-    public async Task<ActionResult> GetAllLinksAsync()
+    public async Task<ActionResult> GetAllLinksAsync([FromQuery] string sortOrder = "OldestFirst")
     {
-        var response = await session.Query<CreateLinkResponse>().ToListAsync();
-        return Ok(response);
+        var response = session.Query<CreateLinkResponse>();
+
+        if (sortOrder == "NewestFirst")
+        {
+            response = (Marten.Linq.IMartenQueryable<CreateLinkResponse>)response.OrderByDescending(link => link.Created);
+        }
+
+        var results = await response.ToListAsync();
+        //await Task.Delay(3000);
+        return Ok(results);
     }
 
     [HttpPost("/links")]
@@ -24,17 +35,20 @@ public class LinksController(IDocumentSession session) : ControllerBase
         [FromBody] CreateLinkRequest request
         )
     {
+        string userSubject = await userIdentityManager.GetSubjectAsync();
+
         var response = new CreateLinkResponse
         {
             Id = Guid.NewGuid(),
             Href = request.Href,
             Description = request.Description,
-            AddedBy = "joe@aol.com",
+            AddedBy = userSubject,
             Created = DateTimeOffset.Now,
             Title = request.Title,
         };
         session.Store(response);
         await session.SaveChangesAsync();
+
         return Created($"/links/{response.Id}", response);
     }
 
@@ -68,7 +82,7 @@ public class LinksController(IDocumentSession session) : ControllerBase
 
 public record CreateLinkRequest
 {
-    [Required]
+    [Required] // "Declarative Programming"
     public string Href { get; set; } = string.Empty;
     [Required]
     public string Description { get; set; } = string.Empty;

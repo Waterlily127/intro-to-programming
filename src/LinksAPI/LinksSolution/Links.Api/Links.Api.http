@@ -3,16 +3,16 @@
 POST http://localhost:5274/links
 Content-Type: application/json
 Authorization: bearer SOME_VALUE_YOU_GET_FROM_ANOTHER_SERVICE
- 
+
 {
     "title": "Some Link",
     "description": "Some Description",
     "href": "https://blah.com"
 }
-}
- 
- 
+
+
 ###
- 
+
 GET http://localhost:5274/links
-Accept: application/json
+Accept: application/json 
+

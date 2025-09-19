@@ -1,1 +1,1 @@
-create database Links;
+create database links;
